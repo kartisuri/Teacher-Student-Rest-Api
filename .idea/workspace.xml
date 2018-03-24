@@ -14,17 +14,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="14" column="81" lean-forward="true" selection-start-line="14" selection-start-column="81" selection-end-line="14" selection-end-column="81" />
+            <state relative-caret-position="282">
+              <caret line="13" column="34" lean-forward="false" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db_init.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="db_init.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_init.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="375">
@@ -141,9 +141,9 @@
         <option value="$PROJECT_DIR$/controllers/TeacherController.js" />
         <option value="$PROJECT_DIR$/services/TeacherService.js" />
         <option value="$PROJECT_DIR$/daos/TeacherDao.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/config/config.js" />
         <option value="$PROJECT_DIR$/db_init.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -229,12 +229,12 @@
       <workItem from="1521800649945" duration="669000" />
       <workItem from="1521824900051" duration="3782000" />
       <workItem from="1521867493169" duration="30847000" />
-      <workItem from="1521908570204" duration="6059000" />
+      <workItem from="1521908570204" duration="6350000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41357000" />
+    <option name="totallyTimeSpent" value="41648000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -439,14 +439,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="14" column="81" lean-forward="true" selection-start-line="14" selection-start-column="81" selection-end-line="14" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TeacherController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="775">
@@ -467,6 +459,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="13" column="34" lean-forward="false" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
           <folding />
         </state>
       </provider>

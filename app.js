@@ -11,6 +11,7 @@ app.use('/api', router);
 
 const TeacherController = require('./controllers/TeacherController');
 let tc = new TeacherController(router);
+let initDb = require('./db_init');
 
 app.get('/', (req, res) => res.send('Teacher Student REST API Node Assignment'));
 
