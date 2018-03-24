@@ -14,6 +14,6 @@ let tc = new TeacherController(router);
 
 app.get('/', (req, res) => res.send('Teacher Student REST API Node Assignment'));
 
-app.listen(3010, () => console.log('Example app listening on port', 3010));
+app.listen(config.port, () => console.log('Example app listening on port', config.port));
 
 module.exports = app;
