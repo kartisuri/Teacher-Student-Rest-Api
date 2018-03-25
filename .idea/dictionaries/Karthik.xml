@@ -1,14 +1,20 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Karthik">
     <words>
+      <w>addr</w>
       <w>apis</w>
       <w>cleardb</w>
       <w>commonstudents</w>
+      <w>eacces</w>
+      <w>eaddrinuse</w>
       <w>heroku</w>
       <w>passw</w>
       <w>retrievefornotifications</w>
+      <w>sequelize</w>
+      <w>supertest</w>
       <w>teacheremail</w>
       <w>teacherstudent</w>
+      <w>teacherstudentrestapi</w>
     </words>
   </dictionary>
 </component>

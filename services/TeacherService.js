@@ -1,64 +1,92 @@
 'use strict';
 
-const TeacherDao = require('../daos/TeacherDao');
-const StudentDao = require('../daos/StudentDao');
-const config = require('../config/config');
+const async = require("async");
+const db = require('../models');
 
 class TeacherService {
-    constructor(){
-        this.teacherDao = new TeacherDao(config.db.get);
-        this.studentDao = new StudentDao(config.db.get);
+    constructor() {
     }
 
-    registerStudents(teacher, students) {
-        let student_rows = [];
-        let teacher_row = this.teacherDao.findOne(teacher);
-        if (!teacher_row) teacher_row = this.teacherDao.create(teacher);
-        console.log(teacher_row);
-        if (!teacher_row) return false;
-
-        students.forEach(student => {
-            const student_row = this.studentDao.create(student);
-            if (!student_row) return false;
-            student_rows.push(student_row);
-        });
-
-        student_rows.forEach(row => {
-           const teacher_student_row = this.teacherDao.createStudentForTeacher(teacher_row, row);
-           if (!teacher_student_row) return false;
-        });
-        return true;
+    registerStudents(teacher_email, student_emails, res) {
+        db.Teacher.findOrCreate({where: {email: teacher_email}})
+            .spread((teacher, created) => {
+                console.log(teacher.get({plain: true}));
+                console.log("Teacher created: ", created);
+                student_emails.forEach(student_email => {
+                    db.Student.findOrCreate({where: {email: student_email, status: 1, teacherId: teacher.id}})
+                        .spread((student) => {
+                            console.log(student.get({plain: true}));
+                            console.log("Student created: ", created);
+                            student.setTeacher(teacher);
+                        });
+                });
+            });
+        res.status(204).send();
     }
 
-    getCommonStudents(teachers) {
+    getCommonStudents(teacher_emails, res) {
         let student_emails_for_each_teacher = [];
-        teachers.forEach(teacher => {
-            let student_emails_for_teacher;
-            student_emails_for_teacher = this.teacherDao.findStudentsForTeacher(teacher);
-            if (!student_emails_for_teacher) return false;
-            student_emails_for_each_teacher.push(new Set(student_emails_for_teacher));
+        async.each(teacher_emails,
+            function (teacher_email, callback) {
+                db.Teacher.findOne({where: {email: teacher_email}}).then((teacher) => {
+                    if (!teacher) {
+                        res.status(400).send({error: teacher.email + " not present"});
+                    }
+                    else {
+                        db.Student.findAll({where: {teacherId: teacher.id}})
+                            .then((students) => {
+                                let student_emails_for_teacher = [];
+                                students.forEach(student => {
+                                    student_emails_for_teacher.push(student.email);
+                                });
+                                student_emails_for_each_teacher.push(new Set(student_emails_for_teacher));
+                                callback();
+                            });
+                    }
+                });
+            },
+            function (err) {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send({error: "error in retrieving students for notification"});
+                }
+                const recipients = student_emails_for_each_teacher
+                    .reduce((set1, set2) => [...set1].filter(email => set2.has(email)));
+                res.status(200).send({recipients: [...recipients]});
+            });
+    }
+
+    suspendStudent(student_email, res) {
+        db.Student.findAll({where: {email: student_email}}).then((students) => {
+            if (students.length === 0) {
+                res.status(400).send({error: student_email + " not found"});
+            }
+            else {
+                db.Student.update({status: 0}, {where: {email: student_email}})
+                    .then(() => {
+                        res.status(204).send();
+                    });
+            }
         });
-        return student_emails_for_each_teacher.reduce((set1, set2) => [...set1].filter(email => set2.has(email)));
     }
 
-    checkStudent(student){
-        return this.studentDao.findOne(student);
-    }
-
-    suspendStudent(student) {
-        return this.studentDao.update(student);
-    }
-
-    getStudentsForNotification(teacher, students) {
+    getStudentsForNotification(teacher_email, student_emails, res) {
         let recipient_emails = [];
-        students.forEach(student => {
-           recipient_emails.push(student.email);
+        db.Teacher.findOne({where: {email: teacher_email}}).then((teacher) => {
+            if (!teacher) {
+                res.status(400).send({error: teacher_email + " not present"});
+            }
+            else {
+                db.Student.findAll({where: {teacherId: teacher.id, status: 1}})
+                    .then((students) => {
+                        students.forEach(student => {
+                            recipient_emails.push(student.email)
+                        });
+                        const recipients = new Set(recipient_emails.concat(student_emails));
+                        res.status(200).send({recipients: [...recipients]});
+                    });
+            }
         });
-
-        student_emails_for_teacher = this.teacherDao.findActiveStudentsForTeacher(teacher);
-        if(!student_emails_for_teacher) return false;
-        recipient_emails.concat(student_emails_for_teacher);
-        return new Set(recipient_emails);
     }
 }
 
