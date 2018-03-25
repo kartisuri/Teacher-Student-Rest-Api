@@ -30,7 +30,7 @@ class TeacherService {
             function (teacher_email, callback) {
                 db.Teacher.findOne({where: {email: teacher_email}}).then((teacher) => {
                     if (!teacher) {
-                        res.status(400).send({error: teacher.email + " not present"});
+                        res.status(400).send({error: teacher_email + " not present"});
                     }
                     else {
                         db.Student.findAll({where: {teacherId: teacher.id}})
@@ -50,9 +50,9 @@ class TeacherService {
                     console.log(err);
                     res.status(500).send({error: "error in retrieving students for notification"});
                 }
-                const recipients = student_emails_for_each_teacher
+                const students = student_emails_for_each_teacher
                     .reduce((set1, set2) => [...set1].filter(email => set2.has(email)));
-                res.status(200).send({recipients: [...recipients]});
+                res.status(200).send({students: [...recipients]});
             });
     }
 
