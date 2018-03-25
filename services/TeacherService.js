@@ -52,7 +52,7 @@ class TeacherService {
                 }
                 const students = student_emails_for_each_teacher
                     .reduce((set1, set2) => [...set1].filter(email => set2.has(email)));
-                res.status(200).send({students: [...recipients]});
+                res.status(200).send({students: [...students]});
             });
     }
 
